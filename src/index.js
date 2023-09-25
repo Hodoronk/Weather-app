@@ -1,1 +1,4 @@
-console.log('hello webpack') ;
+import { getWeatherData } from "./weatherAPI";
+
+
+getWeatherData('Bucharest') ;
