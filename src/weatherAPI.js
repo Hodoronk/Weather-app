@@ -26,7 +26,7 @@ export async function getWeatherData(location) {
     const getWeather = await fetch(`http://api.weatherapi.com/v1/current.json?key=dc888092a84f491faf694133232509&q=${location}&aqi=no` , {mode : "cors"}) ;
     const weatherResponse = await getWeather.json();
 
-    const getForecast = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=dc888092a84f491faf694133232509&q=${location}&days=7&aqi=no` , {mode: "cors"}) ;
+    const getForecast = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=dc888092a84f491faf694133232509&q=${location}&days=10&aqi=no` , {mode: "cors"}) ;
     const forecastResponse = await getForecast.json() ;
     console.log(forecastResponse) ;
 
@@ -49,7 +49,7 @@ export async function getWeatherData(location) {
     chanceOfRain.textContent = forecastResponse.forecast.forecastday[0].day.daily_chance_of_rain + '%' ;
     windSpeed.textContent = windSpeedKm + 'km' ;
 
-    //Text content modifications for forecast
+
 
 
 
