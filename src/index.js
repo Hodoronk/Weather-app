@@ -1,6 +1,6 @@
 import { getWeatherData, getToday, todayDate, location} from "./weatherAPI";
 const { format } = require('date-fns');
-
+import { populateForecast } from "./weekForecast";
 
 const onLoad = () => {
 
@@ -10,7 +10,6 @@ const onLoad = () => {
     location.textContent = 'Lupeni' ;
     getWeatherData('Lupeni') ;
 
+
 }
-
-
 onLoad();

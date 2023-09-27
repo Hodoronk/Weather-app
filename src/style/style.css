@@ -7,7 +7,7 @@
 }
 
 body{
-    background: rgb(31, 30, 30);
+    background: rgb(46, 44, 44);
 }
 
 .future-cast{
@@ -53,6 +53,7 @@ body{
 .humid img, .wind-speed img, .inner-cor img{
     height: 50px;
     width: 50px;
+    margin-right: 70px;
 }
 
 
@@ -133,9 +134,7 @@ body{
 
     border-radius: 30px;
     padding: 10px;
-    -webkit-box-shadow: 9px 7px 15px 3px rgba(255,255,255,0.34); 
-box-shadow: 9px 7px 15px 3px rgba(255,255,255,0.34);
-    background-color: rgb(37, 59, 85);
+    background-color: rgba(120, 120, 207, 0.267);
 }
 
 .inner-day{
@@ -157,4 +156,12 @@ box-shadow: 9px 7px 15px 3px rgba(255,255,255,0.34);
 
 .today-date{
     margin-top: 100px;
+}
+
+#max-temp {
+    color: orange;
+}
+
+#min-temp{
+    color: blue;
 }
