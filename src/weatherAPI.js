@@ -1,22 +1,23 @@
 const { format } = require('date-fns');
-
-
-
 const body = document.querySelector('body') ;
+
 
 // Search bar declarations
 const input = document.getElementById ('search-bar') ; 
 const searchBtn = document.getElementById ('search-btn' ) ;
 
 // Today Weather declarations
-const location = document.getElementById ('location') ;
+export const location = document.getElementById ('location') ;
+export const todayDate = document.getElementById('today-date') ;
+
+
 const tempNow = document.getElementById ('temperature') ;
 const feelsLike = document.getElementById ('fl-temp') ;
 const humidity = document.getElementById ('humid-percent') ;
 const chanceOfRain = document.getElementById('cor-percent') ;
 const windSpeed = document.getElementById('w-speed') ;
 const todayImage = document.getElementById('weather-icon') ;
-const todayDate = document.getElementById('today-date') ;
+
 
 
 
@@ -92,8 +93,6 @@ searchBtn.addEventListener('click' , () => {
 
 const getToday = () => {
     const today = new Date();
-    const formattedDate = format(today , 'EEEE')
-
-
+    const formattedDate = format(today , 'EEEE, d MMMM yyyy') ;
    return formattedDate;
 }
