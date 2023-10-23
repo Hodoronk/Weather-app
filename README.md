@@ -1,6 +1,6 @@
 # Weather app
 
-This is a simple weather application that allows you to check the current weather and 10-day forecast for a given location. It fetches weather data from the [WeatherAPI](http://api.weatherapi.com) and displays the information in an easy-to-read format.
+This is a simple weather application that allows you to check the current weather and 10-day forecast for a given location. It fetches weather data from the [WeatherAPI](http://api.weatherapi.com) and displays the information in an easy-to-read format. This app is part of The Odin Project curriculum.
 
 ## Features
 
