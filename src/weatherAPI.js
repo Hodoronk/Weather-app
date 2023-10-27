@@ -21,12 +21,12 @@ const todayImage = document.getElementById('weather-icon') ;
 
 export async function getWeatherData(location) {
 
-    const getWeather = await fetch(`http://api.weatherapi.com/v1/current.json?key=dc888092a84f491faf694133232509&q=${location}&aqi=no` , {mode : "cors"}) ;
+    const getWeather = await fetch(`http://api.weatherapi.com/v1/current.json?key=5effd139c50a4ea89af145132232310&q=${location}&aqi=no` , {mode : "cors"}) ;
     const weatherResponse = await getWeather.json();
 
-    const getForecast = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=dc888092a84f491faf694133232509&q=${location}&days=10&aqi=no` , {mode: "cors"}) ;
+    const getForecast = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=5effd139c50a4ea89af145132232310&q=${location}&days=10&aqi=no` , {mode: "cors"}) ;
     const forecastResponse = await getForecast.json() ;
-    console.log(forecastResponse) ;
+    console.log(forecastResponse) 
 
     // Weather Related
     const tempC = weatherResponse.current.temp_c;
@@ -53,7 +53,7 @@ export async function getWeatherData(location) {
 
     // Forecast temperatures, day names and icons
     const dayElements = document.querySelectorAll ( '.day' ) ;
-    let i = 1;          // i = 1 because 0 is current day, which is not useful for forecast 
+    let i = 1; 
     dayElements.forEach(dayElement => {
         const maxTemp = dayElement.querySelector('#max-temp') ;
         maxTemp.textContent = forecastResponse.forecast.forecastday[i].day.maxtemp_c + ` °c`;
