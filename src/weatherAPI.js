@@ -21,21 +21,25 @@ const todayImage = document.getElementById('weather-icon') ;
 
 export async function getWeatherData(location) {
 
+    const getGeo = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=bc461637671b5e4788b47c8013225e15`)
+    const geoResponse = await getGeo.json()
+    console.log(geoResponse)
+    const geoLat = geoResponse[0].lat
+    const geoLon = geoResponse[0].lon
+    console.log(geoLon)
+
     const getWeather = await fetch(`http://api.weatherapi.com/v1/current.json?key=5effd139c50a4ea89af145132232310&q=${location}&aqi=no` , {mode : "cors"}) ;
     const weatherResponse = await getWeather.json();
 
-    const getForecast = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=5effd139c50a4ea89af145132232310&q=${location}&days=10&aqi=no` , {mode: "cors"}) ;
-    const forecastResponse = await getForecast.json() ;
-    console.log(forecastResponse) 
+    // const getForecast = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=bc461637671b5e4788b47c8013225e15`) ;
+    // const forecastResponse = await getForecast.json() ;
+    // console.log(forecastResponse) 
 
     // Weather Related
     const tempC = weatherResponse.current.temp_c;
     const feelsLikeC = weatherResponse.current.feelslike_c;
     const cloudStatus = weatherResponse.current.cloud;
     const humidityApi = weatherResponse.current.humidity;
-
-
-
     const windSpeedKm = weatherResponse.current.wind_kph;
 
 
