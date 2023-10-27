@@ -1,6 +1,10 @@
 const { format, addDays } = require('date-fns');
 const body = document.querySelector('body') ;
 
+// My API key
+const myKey = config.Unseen_key;
+
+
 
 // Search bar declarations
 const input = document.getElementById ('search-bar') ; 
@@ -21,19 +25,19 @@ const todayImage = document.getElementById('weather-icon') ;
 
 export async function getWeatherData(location) {
 
-    const getGeo = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=bc461637671b5e4788b47c8013225e15`)
+    // API call to get the latitude and logitude of searched location
+    const getGeo = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=` + myKey)
     const geoResponse = await getGeo.json()
-    console.log(geoResponse)
     const geoLat = geoResponse[0].lat
     const geoLon = geoResponse[0].lon
-    console.log(geoLon)
 
-    const getWeather = await fetch(`http://api.weatherapi.com/v1/current.json?key=5effd139c50a4ea89af145132232310&q=${location}&aqi=no` , {mode : "cors"}) ;
+
+
+
+    const getWeather = await fetch(`http://api.openweathermap.org/data/2.5/forecast/daily?lat=${geoLat}&lon=${geoLon}&cnt=10&appid=` + myKey) ;
     const weatherResponse = await getWeather.json();
+    console.log(weatherResponse)
 
-    // const getForecast = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=bc461637671b5e4788b47c8013225e15`) ;
-    // const forecastResponse = await getForecast.json() ;
-    // console.log(forecastResponse) 
 
     // Weather Related
     const tempC = weatherResponse.current.temp_c;
