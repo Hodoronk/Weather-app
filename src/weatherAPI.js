@@ -30,12 +30,14 @@ export async function getWeatherData(location) {
     const geoResponse = await getGeo.json()
     const geoLat = geoResponse[0].lat
     const geoLon = geoResponse[0].lon
+    console.log(geoLat, geoLon)
 
 
 
 
-    const getWeather = await fetch(`http://api.openweathermap.org/data/2.5/forecast/daily?lat=${geoLat}&lon=${geoLon}&cnt=10&appid=` + myKey) ;
+    const getWeather = await fetch(`http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${myKey}&lat=${geoLat}&lon=${geoLon}`) ;
     const weatherResponse = await getWeather.json();
+
     console.log(weatherResponse)
 
 
