@@ -6,6 +6,13 @@
     color: white;
 }
 
+nav{
+    height: 70px;
+    background-color: rgba(192, 192, 248, 0.259);
+    border-bottom: 2px solid black;
+    padding: 15px;
+}
+
 body{
     background: rgb(46, 44, 44);
 }
@@ -30,8 +37,10 @@ body{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
- 
+}
+#weather-icon{
+    width: 200px;
+    height:200px;
 }
 
 .details-card{
@@ -39,6 +48,7 @@ body{
     margin: 300px 100px;
     display: flex;
     flex-direction: column;
+
     
     
     
@@ -131,10 +141,13 @@ body{
 
 
 .day{
-
+    cursor: pointer;
     border-radius: 30px;
     padding: 10px;
-    background-color: rgba(120, 120, 207, 0.267);
+    background-color: rgba(231, 231, 246, 0.267);
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .inner-day{
@@ -163,5 +176,7 @@ body{
 }
 
 #min-temp{
-    color: blue;
+    color: rgb(2, 2, 78);
 }
+
+
