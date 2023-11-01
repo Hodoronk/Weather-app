@@ -1,4 +1,5 @@
-import { getWeatherData, getToday, todayDate, location} from "./weatherAPI";
+import { getWeatherData, getToday, todayDate, location, unitString} from "./weatherAPI";
+import { kToCelsius, kToFahr } from "./functions";
 const { format } = require('date-fns');
 
 
@@ -8,7 +9,7 @@ const onLoad = () => {
     const formattedDate = format(today , 'EEEE, d MMMM yyyy') ;
     todayDate.textContent = formattedDate;
     location.textContent = 'Lupeni' ;
-    getWeatherData('Lupeni') ;
+    getWeatherData('Lupeni', kToCelsius, unitString) ;
 
 
 }
