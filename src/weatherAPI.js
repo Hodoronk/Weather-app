@@ -27,19 +27,36 @@ const todayImage = document.getElementById('weather-icon')
 const toggleUnits = document.querySelector('#toggle-units')
 const localTimeDom = document.querySelector('#local-time')
 
+// Temperature unit switching
+let unitType = kToCelsius;
+export let unitString = '°c'
+
+toggleUnits.addEventListener('click', () => {
+    let thisLocation = location.textContent
+    if(unitType === kToCelsius){
+        unitType = kToFahr
+        unitString = '°F'
+        toggleUnits.textContent = 'Fahrenheit'
+    }else {
+        unitType = kToCelsius
+        unitString = '°c'
+        toggleUnits.textContent = 'Celsius'
+    }
+    getWeatherData(thisLocation, unitType, unitString)
+})
 
 
 
 
-export async function getWeatherData(location) {
+
+
+export async function getWeatherData(location, unit, unitString) {
 
     // API call to get the latitude and logitude of searched location
     const getGeo = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=` + myKey)
     const geoResponse = await getGeo.json()
     const geoLat = geoResponse[0].lat
     const geoLon = geoResponse[0].lon
-
-
 
 
 
@@ -96,8 +113,8 @@ export async function getWeatherData(location) {
 
     // Current day content modifications
     todayDate.textContent = getToday();
-    tempNow.textContent = kToCelsius( weatherResponse.list[0].main.temp) + "°c"
-    feelsLike.textContent = kToCelsius (weatherResponse.list[0].main.feels_like) + ' °c' ;
+    tempNow.textContent = unit( weatherResponse.list[0].main.temp) + unitString
+    feelsLike.textContent = unit(weatherResponse.list[0].main.feels_like) + unitString
     humidity.textContent = weatherResponse.list[0].main.humidity + "%"; 
     chanceOfRain.textContent = wApiResponse.forecast.forecastday[0].day.daily_chance_of_rain  + "%"
     windSpeed.textContent = windSpeedKm.toFixed(1) + ' km' ;
@@ -106,50 +123,49 @@ export async function getWeatherData(location) {
 
 
 
-    // Forecast day names
+    // Forecast day names, max/min temperatures
     const dayElements = document.querySelectorAll ( '.day' ) ;
     let i = 1
     dayElements.forEach(dayElement => {
-        isDay = 1 //changed isDay so that forecast icons are always the day ones
+        isDay = 1 
         const today = new Date();
         const nextDay = addDays(today, i) ;
         const dayOfWeek = dayElement.querySelector ('h2') ;
-        dayOfWeek.textContent = format(nextDay, 'EEEE');
         const maxTemp = dayElement.querySelector('#max-temp')
         const minTemp = dayElement.querySelector('#min-temp')
-        maxTemp.textContent = kToCelsius(Math.max(...dayTemps[i-1])) + ' °c'
-        minTemp.textContent = kToCelsius(Math.min(...dayTemps[i-1])) + ' °c'
         const weatherImage = dayElement.querySelector('img');
         const dayCode = weatherResponse.list[i].weather[0].id;
+
+        dayOfWeek.textContent = format(nextDay, 'EEEE');
+        maxTemp.textContent = unit(Math.max(...dayTemps[i-1])) + ' °c'
+        minTemp.textContent = unit(Math.min(...dayTemps[i-1])) + ' °c'
+
         imageChange(dayCode, weatherImage, isDay)
         i++
     })
-
-
-    // Image modifications
-
-
 }
 
 
+
+// Search functionality
 function performSearch(){
-    getWeatherData(input.value)
-    location.textContent = input.value;
-    input.value = ''
+    console.log('unitType:', unitType)
+    if(unitType === kToCelsius) {
+        getWeatherData(input.value, kToCelsius, unitString)
+        location.textContent = input.value;
+        input.value = ''
+    }else{
+        getWeatherData(input.value, kToFahr, unitString)
+        location.textContent = input.value;
+        input.value = ''
+    }
 }
 
 
 searchBtn.addEventListener('click' , performSearch)
-
 input.addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
         performSearch()
     }
 })
-
-
-
-
-
-
 
