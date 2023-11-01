@@ -2,28 +2,30 @@ import { kToCelsius, kToFahr, getToday, imageChange, nightImage } from './functi
 import addDays from 'date-fns/addDays';
 import format from 'date-fns/format';
 
+
 const body = document.querySelector('body') ;
 
-// My API key
+// My API keys
 const myKey = config.Unseen_key;
 const weatherKey = config.weatherAPI_key
 
 
 
 // Search bar declarations
-const input = document.getElementById ('search-bar') ; 
-const searchBtn = document.getElementById ('search-btn' ) ;
+const input = document.getElementById ('search-bar')
+const searchBtn = document.getElementById ('search-btn' )
 
 // Today Weather declarations
-export const location = document.getElementById ('location') ;
-export const todayDate = document.getElementById('today-date') ;
-const tempNow = document.getElementById ('temperature') ;
-const feelsLike = document.getElementById ('fl-temp') ;
-const humidity = document.getElementById ('humid-percent') ;
-const chanceOfRain = document.getElementById('cor-percent') ;
-const windSpeed = document.getElementById('w-speed') ;
-const todayImage = document.getElementById('weather-icon') ;
+export const location = document.getElementById ('location') 
+export const todayDate = document.getElementById('today-date') 
+const tempNow = document.getElementById ('temperature') 
+const feelsLike = document.getElementById ('fl-temp') 
+const humidity = document.getElementById ('humid-percent') 
+const chanceOfRain = document.getElementById('cor-percent') 
+const windSpeed = document.getElementById('w-speed') 
+const todayImage = document.getElementById('weather-icon') 
 const toggleUnits = document.querySelector('#toggle-units')
+const localTimeDom = document.querySelector('#local-time')
 
 
 
@@ -87,6 +89,10 @@ export async function getWeatherData(location) {
     let isDay = wApiResponse.current.is_day;
     const windSpeedKm = weatherResponse.list[0].wind.speed
     const todayCode = weatherResponse.list[0].weather[0].id
+    const localTime = wApiResponse.location.localtime
+    // Getting local hour
+    const localHour = localTime.substring(localTime.length - 5)
+
 
     // Current day content modifications
     todayDate.textContent = getToday();
@@ -95,6 +101,7 @@ export async function getWeatherData(location) {
     humidity.textContent = weatherResponse.list[0].main.humidity + "%"; 
     chanceOfRain.textContent = wApiResponse.forecast.forecastday[0].day.daily_chance_of_rain  + "%"
     windSpeed.textContent = windSpeedKm.toFixed(1) + ' km' ;
+    localTimeDom.textContent = `Local time is : ${localHour}`
     imageChange(todayCode, todayImage, isDay)
 
 
@@ -125,19 +132,20 @@ export async function getWeatherData(location) {
 }
 
 
-
-searchBtn.addEventListener('click' , () => {
-
+function performSearch(){
     getWeatherData(input.value)
     location.textContent = input.value;
+    input.value = ''
+}
 
+
+searchBtn.addEventListener('click' , performSearch)
+
+input.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        performSearch()
+    }
 })
-
-
-
-
-
-
 
 
 
