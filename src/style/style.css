@@ -8,9 +8,27 @@
 
 nav{
     height: 70px;
-    background-color: rgba(192, 192, 248, 0.259);
-    border-bottom: 2px solid black;
+    background-color: rgb(36, 36, 85);
+    position: fixed;
     padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+
+
+
+nav button{
+    background: none;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.312);
+    padding: 15px;
+    border-radius :50px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 body{
@@ -179,4 +197,29 @@ body{
     color: rgb(2, 2, 78);
 }
 
+#second-page{
+    height: 100vh;
+    margin-top: 20px;
 
+}
+
+#github-link{
+    height: 15px;
+    width: 15px;
+    margin-right: 5px;
+    margin-top: 5px;
+
+}
+nav a{
+    text-decoration: none
+}
+
+#logo-sun{
+    height: 50px;
+    width: 50px
+}
+#logo{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
