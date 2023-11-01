@@ -1,4 +1,4 @@
-import { kToCelsius, kToFahr, getToday, imageChange } from './functions'
+import { kToCelsius, kToFahr, getToday, imageChange, nightImage } from './functions'
 import addDays from 'date-fns/addDays';
 import format from 'date-fns/format';
 
@@ -6,6 +6,7 @@ const body = document.querySelector('body') ;
 
 // My API key
 const myKey = config.Unseen_key;
+const weatherKey = config.weatherAPI_key
 
 
 
@@ -22,6 +23,7 @@ const humidity = document.getElementById ('humid-percent') ;
 const chanceOfRain = document.getElementById('cor-percent') ;
 const windSpeed = document.getElementById('w-speed') ;
 const todayImage = document.getElementById('weather-icon') ;
+const toggleUnits = document.querySelector('#toggle-units')
 
 
 
@@ -43,6 +45,11 @@ export async function getWeatherData(location) {
     const getWeather = await fetch(`http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${myKey}&lat=${geoLat}&lon=${geoLon}`) ;
     const weatherResponse = await getWeather.json();
     console.log(weatherResponse)
+
+    // API call to weatherAPI for chance of rain + isDay
+    const wApi = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${weatherKey}&q=${location}&days=1&aqi=no&alerts=no`)
+    const wApiResponse = await wApi.json();
+    console.log(wApiResponse)
     
     
     // Get day arrays with all temperatures recorded on that specific day
@@ -73,31 +80,30 @@ export async function getWeatherData(location) {
     }
 
 
-    // API info
-    const tempC = kToCelsius(weatherResponse.list[0].main.temp)
-    const feelsLikeC = kToCelsius (weatherResponse.list[0].main.feels_like)
-    const cloudStatus = weatherResponse.list[0].weather[0].description
-    const humidityApi = weatherResponse.list[0].main.humidity
+
+
+
+    // fetched
+    let isDay = wApiResponse.current.is_day;
     const windSpeedKm = weatherResponse.list[0].wind.speed
     const todayCode = weatherResponse.list[0].weather[0].id
-    
-    // const rainChance = 
 
     // Current day content modifications
     todayDate.textContent = getToday();
-    tempNow.textContent = tempC + '°c';
-    feelsLike.textContent = feelsLikeC + ' °c' ;
-    humidity.textContent = humidityApi + "%"; 
-    chanceOfRain.textContent = console.log('not yet')
-    windSpeed.textContent = windSpeedKm + ' km' ;
-    imageChange(todayCode, todayImage)
-  
+    tempNow.textContent = kToCelsius( weatherResponse.list[0].main.temp) + "°c"
+    feelsLike.textContent = kToCelsius (weatherResponse.list[0].main.feels_like) + ' °c' ;
+    humidity.textContent = weatherResponse.list[0].main.humidity + "%"; 
+    chanceOfRain.textContent = wApiResponse.forecast.forecastday[0].day.daily_chance_of_rain  + "%"
+    windSpeed.textContent = windSpeedKm.toFixed(1) + ' km' ;
+    imageChange(todayCode, todayImage, isDay)
+
 
 
     // Forecast day names
     const dayElements = document.querySelectorAll ( '.day' ) ;
     let i = 1
     dayElements.forEach(dayElement => {
+        isDay = 1 //changed isDay so that forecast icons are always the day ones
         const today = new Date();
         const nextDay = addDays(today, i) ;
         const dayOfWeek = dayElement.querySelector ('h2') ;
@@ -108,7 +114,7 @@ export async function getWeatherData(location) {
         minTemp.textContent = kToCelsius(Math.min(...dayTemps[i-1])) + ' °c'
         const weatherImage = dayElement.querySelector('img');
         const dayCode = weatherResponse.list[i].weather[0].id;
-        imageChange(dayCode, weatherImage)
+        imageChange(dayCode, weatherImage, isDay)
         i++
     })
 
@@ -126,6 +132,7 @@ searchBtn.addEventListener('click' , () => {
     location.textContent = input.value;
 
 })
+
 
 
 
