@@ -1,4 +1,4 @@
-import { kToCelsius, kToFahr, getToday } from './functions'
+import { kToCelsius, kToFahr, getToday, imageChange } from './functions'
 import addDays from 'date-fns/addDays';
 import format from 'date-fns/format';
 
@@ -22,6 +22,7 @@ const humidity = document.getElementById ('humid-percent') ;
 const chanceOfRain = document.getElementById('cor-percent') ;
 const windSpeed = document.getElementById('w-speed') ;
 const todayImage = document.getElementById('weather-icon') ;
+
 
 
 
@@ -78,6 +79,8 @@ export async function getWeatherData(location) {
     const cloudStatus = weatherResponse.list[0].weather[0].description
     const humidityApi = weatherResponse.list[0].main.humidity
     const windSpeedKm = weatherResponse.list[0].wind.speed
+    const todayCode = weatherResponse.list[0].weather[0].id
+    
     // const rainChance = 
 
     // Current day content modifications
@@ -87,6 +90,8 @@ export async function getWeatherData(location) {
     humidity.textContent = humidityApi + "%"; 
     chanceOfRain.textContent = console.log('not yet')
     windSpeed.textContent = windSpeedKm + ' km' ;
+    imageChange(todayCode, todayImage)
+  
 
 
     // Forecast day names
@@ -94,61 +99,36 @@ export async function getWeatherData(location) {
     let i = 1
     dayElements.forEach(dayElement => {
         const today = new Date();
-        const dayOfWeek = dayElement.querySelector ('h2') ;
         const nextDay = addDays(today, i) ;
+        const dayOfWeek = dayElement.querySelector ('h2') ;
         dayOfWeek.textContent = format(nextDay, 'EEEE');
-        console.log(dayOfWeek)
-        console.log(Math.max(...dayTemps[i-1]))
-        console.log(Math.min(...dayTemps[i-1]))
         const maxTemp = dayElement.querySelector('#max-temp')
         const minTemp = dayElement.querySelector('#min-temp')
-        
         maxTemp.textContent = kToCelsius(Math.max(...dayTemps[i-1])) + ' °c'
         minTemp.textContent = kToCelsius(Math.min(...dayTemps[i-1])) + ' °c'
-
-
-
-
-
-
-
-
+        const weatherImage = dayElement.querySelector('img');
+        const dayCode = weatherResponse.list[i].weather[0].id;
+        imageChange(dayCode, weatherImage)
         i++
     })
 
 
-
-
-
-
     // Image modifications
 
-//     async function forecastImages(image, daynumber) {
 
-
-//     if (forecastResponse.forecast.forecastday[daynumber].day.daily_chance_of_rain >= 50){
-//         image.src = '/src/images/rain.png' ;
-//     } else if(cloudStatus == 0) {
-//         image.src = '/src/images/clear.png' ;
-//     } else if(forecastResponse.forecast.forecastday[daynumber].day.daily_chance_of_rain >= 50) {
-//         image.src = '/src/images/snow.png' ;
-//     } else if(cloudStatus >= 20) {
-//         image.src = '/src/images/clouds.png' ;
-//     }
-// }
-// forecastImages(todayImage, 0);
 }
 
 
 
 searchBtn.addEventListener('click' , () => {
 
-
     getWeatherData(input.value)
     location.textContent = input.value;
 
-
 })
+
+
+
 
 
 
