@@ -1,4 +1,6 @@
 import format from "date-fns/format";
+import * as dom from './DOM'
+import { getWeatherData } from "./weatherAPI";
 
 export const getToday = () => {
     const today = new Date();
@@ -56,3 +58,44 @@ export function imageChange(code, image, isDay) {
 
     }
 }
+
+export function performSearch(){
+    console.log('unitType:', unitType)
+    if(unitType === kToCelsius) {
+        getWeatherData(input.value, kToCelsius, unitString)
+        dom.location.textContent = input.value;
+        dom.input.value = ''
+    }else{
+        getWeatherData(input.value, kToFahr, unitString)
+        dom.location.textContent = input.value;
+        dom.input.value = ''
+    }
+}
+
+
+// Toggle units event listener
+let unitType = kToCelsius;
+export let unitString = '°c'
+dom.toggleUnits.addEventListener('click', () => {
+    let thisLocation = dom.location.textContent
+    if(unitType === kToCelsius){
+        unitType = kToFahr
+        unitString = '°F'
+        dom.toggleUnits.textContent = 'Fahrenheit'
+    }else {
+        unitType = kToCelsius
+        unitString = '°c'
+        dom.toggleUnits.textContent = 'Celsius'
+    }
+    getWeatherData(thisLocation, unitType, unitString)
+})
+
+dom.searchBtn.addEventListener('click' , performSearch)
+dom.input.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        performSearch()
+    }
+})
+
+
+

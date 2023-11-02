@@ -1,5 +1,8 @@
-import { getWeatherData, getToday, todayDate, location, unitString} from "./weatherAPI";
-import { kToCelsius, kToFahr } from "./functions";
+import { getWeatherData, getToday, } from "./weatherAPI";
+import { location, todayDate } from "./DOM";
+import { kToCelsius, kToFahr, unitString } from "./functions";
+
+
 const { format } = require('date-fns');
 
 
@@ -14,3 +17,4 @@ const onLoad = () => {
 
 }
 onLoad();
+

@@ -1,4 +1,4 @@
-import { kToCelsius, kToFahr, getToday, imageChange, performSearch } from './functions'
+import { getToday, imageChange } from './functions'
 import addDays from 'date-fns/addDays';
 import format from 'date-fns/format';
 import { Chart, CategoryScale, LinearScale, LineController, PointElement, LineElement } from 'chart.js';
