@@ -1,7 +1,8 @@
 import { kToCelsius, kToFahr, getToday, imageChange, performSearch } from './functions'
 import addDays from 'date-fns/addDays';
 import format from 'date-fns/format';
-import { Chart } from "chart.js/auto";
+import { Chart, CategoryScale, LinearScale, LineController, PointElement, LineElement } from 'chart.js';
+Chart.register(CategoryScale, LinearScale, LineController, PointElement, LineElement);
 import * as dom from './DOM'
 
 export async function getWeatherData(location, unit, unitString) {
