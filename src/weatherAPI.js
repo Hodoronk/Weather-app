@@ -1,6 +1,8 @@
 import { kToCelsius, kToFahr, getToday, imageChange, nightImage } from './functions'
 import addDays from 'date-fns/addDays';
 import format from 'date-fns/format';
+import { Chart } from "chart.js/auto";
+
 
 
 const body = document.querySelector('body') ;
@@ -8,6 +10,9 @@ const body = document.querySelector('body') ;
 // My API keys
 const myKey = config.Unseen_key;
 const weatherKey = config.weatherAPI_key
+
+// For graph
+let ctx = document.getElementById('myChart');
 
 
 
@@ -37,10 +42,15 @@ toggleUnits.addEventListener('click', () => {
         unitType = kToFahr
         unitString = '°F'
         toggleUnits.textContent = 'Fahrenheit'
+
+
     }else {
         unitType = kToCelsius
         unitString = '°c'
         toggleUnits.textContent = 'Celsius'
+
+
+
     }
     getWeatherData(thisLocation, unitType, unitString)
 })
@@ -73,6 +83,7 @@ export async function getWeatherData(location, unit, unitString) {
     
     // Get day arrays with all temperatures recorded on that specific day
     const forecastTemps = []
+    const forecastDays = []
     let dateString = weatherResponse.list[0].dt_txt
     let hourString = dateString.substring(dateString.length - 8)
 
@@ -90,6 +101,7 @@ export async function getWeatherData(location, unit, unitString) {
 
     for(j; j < weatherResponse.list.length; j++) {
         forecastTemps.push(weatherResponse.list[j].main.temp)
+        forecastDays.push(weatherResponse.list[j].dt_txt)
     }
     const chunkSize = 8
     const dayTemps = []
@@ -107,6 +119,7 @@ export async function getWeatherData(location, unit, unitString) {
     const windSpeedKm = weatherResponse.list[0].wind.speed
     const todayCode = weatherResponse.list[0].weather[0].id
     const localTime = wApiResponse.location.localtime
+
     // Getting local hour
     const localHour = localTime.substring(localTime.length - 5)
 
@@ -143,7 +156,39 @@ export async function getWeatherData(location, unit, unitString) {
         imageChange(dayCode, weatherImage, isDay)
         i++
     })
+
+    const convForecastTemps = []
+    forecastTemps.forEach(temp => {
+        convForecastTemps.push(unit(temp))
+    })
+    console.log(convForecastTemps)
+
+
+
+    new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: forecastDays,
+    datasets: [{
+      label: '°c',
+      data: convForecastTemps,
+      borderWidth: 5
+    }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: false
+      }
+    }
+  }
+});
+
+
+
+
 }
+
 
 
 
