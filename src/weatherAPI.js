@@ -3,24 +3,22 @@ import addDays from 'date-fns/addDays';
 import format from 'date-fns/format';
 import { Chart } from "chart.js/auto";
 
-
-
-const body = document.querySelector('body') ;
-
-// My API keys
+// API keys
 const myKey = config.Unseen_key;
 const weatherKey = config.weatherAPI_key
 
-// For graph
+
+
+
+
+// Graph DOM
 let ctx = document.getElementById('myChart');
 
-
-
-// Search bar declarations
+// Search bar DOM
 const input = document.getElementById ('search-bar')
 const searchBtn = document.getElementById ('search-btn' )
 
-// Today Weather declarations
+// Current day DOM
 export const location = document.getElementById ('location') 
 export const todayDate = document.getElementById('today-date') 
 const tempNow = document.getElementById ('temperature') 
@@ -29,13 +27,14 @@ const humidity = document.getElementById ('humid-percent')
 const chanceOfRain = document.getElementById('cor-percent') 
 const windSpeed = document.getElementById('w-speed') 
 const todayImage = document.getElementById('weather-icon') 
-const toggleUnits = document.querySelector('#toggle-units')
 const localTimeDom = document.querySelector('#local-time')
 
-// Temperature unit switching
+
+// Fahrenheit - Celsius switch button
 let unitType = kToCelsius;
 export let unitString = '°c'
 
+const toggleUnits = document.querySelector('#toggle-units')
 toggleUnits.addEventListener('click', () => {
     let thisLocation = location.textContent
     if(unitType === kToCelsius){
@@ -43,14 +42,10 @@ toggleUnits.addEventListener('click', () => {
         unitString = '°F'
         toggleUnits.textContent = 'Fahrenheit'
 
-
     }else {
         unitType = kToCelsius
         unitString = '°c'
         toggleUnits.textContent = 'Celsius'
-
-
-
     }
     getWeatherData(thisLocation, unitType, unitString)
 })
@@ -59,7 +54,7 @@ toggleUnits.addEventListener('click', () => {
 
 
 
-
+// Weather API function
 export async function getWeatherData(location, unit, unitString) {
 
     // API call to get the latitude and logitude of searched location
@@ -73,12 +68,15 @@ export async function getWeatherData(location, unit, unitString) {
     // API call with the latitude and longitude
     const getWeather = await fetch(`http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${myKey}&lat=${geoLat}&lon=${geoLon}`) ;
     const weatherResponse = await getWeather.json();
-    console.log(weatherResponse)
+
 
     // API call to weatherAPI for chance of rain + isDay
     const wApi = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${weatherKey}&q=${location}&days=1&aqi=no&alerts=no`)
     const wApiResponse = await wApi.json();
-    console.log(wApiResponse)
+
+
+    // Getting local hour
+    const localHour = localTime.substring(localTime.length - 5)
     
     
     // Get day arrays with all temperatures recorded on that specific day
@@ -110,21 +108,16 @@ export async function getWeatherData(location, unit, unitString) {
         dayTemps.push(chunk)
     }
 
-
-
-
-
     // fetched
     let isDay = wApiResponse.current.is_day;
     const windSpeedKm = weatherResponse.list[0].wind.speed
     const todayCode = weatherResponse.list[0].weather[0].id
     const localTime = wApiResponse.location.localtime
 
-    // Getting local hour
-    const localHour = localTime.substring(localTime.length - 5)
 
 
-    // Current day content modifications
+
+    // Current day textContent modifications
     todayDate.textContent = getToday();
     tempNow.textContent = unit( weatherResponse.list[0].main.temp) + unitString
     feelsLike.textContent = unit(weatherResponse.list[0].main.feels_like) + unitString
@@ -157,6 +150,8 @@ export async function getWeatherData(location, unit, unitString) {
         i++
     })
 
+
+    // Converting graph units (not yet functional)
     const convForecastTemps = []
     forecastTemps.forEach(temp => {
         convForecastTemps.push(unit(temp))
@@ -164,14 +159,16 @@ export async function getWeatherData(location, unit, unitString) {
     console.log(convForecastTemps)
 
 
-
+    // Second page forecast graph (works with Celsius only atm)
     new Chart(ctx, {
   type: 'line',
   data: {
     labels: forecastDays,
+    backgroundColor: 'white',
     datasets: [{
       label: '°c',
       data: convForecastTemps,
+      backgroundColor: 'green',
       borderWidth: 5
     }]
   },
@@ -182,14 +179,9 @@ export async function getWeatherData(location, unit, unitString) {
       }
     }
   }
-});
-
-
-
+})
 
 }
-
-
 
 
 // Search functionality
