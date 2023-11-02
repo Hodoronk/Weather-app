@@ -1,82 +1,26 @@
-import { kToCelsius, kToFahr, getToday, imageChange, nightImage } from './functions'
+import { kToCelsius, kToFahr, getToday, imageChange, performSearch } from './functions'
 import addDays from 'date-fns/addDays';
 import format from 'date-fns/format';
 import { Chart } from "chart.js/auto";
+import * as dom from './DOM'
 
-// API keys
-const myKey = config.Unseen_key;
-const weatherKey = config.weatherAPI_key
-
-
-
-
-
-// Graph DOM
-let ctx = document.getElementById('myChart');
-
-// Search bar DOM
-const input = document.getElementById ('search-bar')
-const searchBtn = document.getElementById ('search-btn' )
-
-// Current day DOM
-export const location = document.getElementById ('location') 
-export const todayDate = document.getElementById('today-date') 
-const tempNow = document.getElementById ('temperature') 
-const feelsLike = document.getElementById ('fl-temp') 
-const humidity = document.getElementById ('humid-percent') 
-const chanceOfRain = document.getElementById('cor-percent') 
-const windSpeed = document.getElementById('w-speed') 
-const todayImage = document.getElementById('weather-icon') 
-const localTimeDom = document.querySelector('#local-time')
-
-
-// Fahrenheit - Celsius switch button
-let unitType = kToCelsius;
-export let unitString = '°c'
-
-const toggleUnits = document.querySelector('#toggle-units')
-toggleUnits.addEventListener('click', () => {
-    let thisLocation = location.textContent
-    if(unitType === kToCelsius){
-        unitType = kToFahr
-        unitString = '°F'
-        toggleUnits.textContent = 'Fahrenheit'
-
-    }else {
-        unitType = kToCelsius
-        unitString = '°c'
-        toggleUnits.textContent = 'Celsius'
-    }
-    getWeatherData(thisLocation, unitType, unitString)
-})
-
-
-
-
-
-// Weather API function
 export async function getWeatherData(location, unit, unitString) {
 
     // API call to get the latitude and logitude of searched location
-    const getGeo = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=` + myKey)
+    const getGeo = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=` + dom.myKey)
     const geoResponse = await getGeo.json()
     const geoLat = geoResponse[0].lat
     const geoLon = geoResponse[0].lon
 
-
-
     // API call with the latitude and longitude
-    const getWeather = await fetch(`http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${myKey}&lat=${geoLat}&lon=${geoLon}`) ;
+    const getWeather = await fetch(`http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${dom.myKey}&lat=${geoLat}&lon=${geoLon}`) ;
     const weatherResponse = await getWeather.json();
 
 
     // API call to weatherAPI for chance of rain + isDay
-    const wApi = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${weatherKey}&q=${location}&days=1&aqi=no&alerts=no`)
+    const wApi = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${dom.weatherKey}&q=${location}&days=1&aqi=no&alerts=no`)
     const wApiResponse = await wApi.json();
 
-
-    // Getting local hour
-    const localHour = localTime.substring(localTime.length - 5)
     
     
     // Get day arrays with all temperatures recorded on that specific day
@@ -114,18 +58,19 @@ export async function getWeatherData(location, unit, unitString) {
     const todayCode = weatherResponse.list[0].weather[0].id
     const localTime = wApiResponse.location.localtime
 
+    // Getting local hour
+    const localHour = localTime.substring(localTime.length - 5)
 
 
-
-    // Current day textContent modifications
-    todayDate.textContent = getToday();
-    tempNow.textContent = unit( weatherResponse.list[0].main.temp) + unitString
-    feelsLike.textContent = unit(weatherResponse.list[0].main.feels_like) + unitString
-    humidity.textContent = weatherResponse.list[0].main.humidity + "%"; 
-    chanceOfRain.textContent = wApiResponse.forecast.forecastday[0].day.daily_chance_of_rain  + "%"
-    windSpeed.textContent = windSpeedKm.toFixed(1) + ' km' ;
-    localTimeDom.textContent = `Local time is : ${localHour}`
-    imageChange(todayCode, todayImage, isDay)
+    // Current day content modifications
+    dom.todayDate.textContent = getToday();
+    dom.tempNow.textContent = unit( weatherResponse.list[0].main.temp) + unitString
+    dom.feelsLike.textContent = unit(weatherResponse.list[0].main.feels_like) + unitString
+    dom.humidity.textContent = weatherResponse.list[0].main.humidity + "%"; 
+    dom.chanceOfRain.textContent = wApiResponse.forecast.forecastday[0].day.daily_chance_of_rain  + "%"
+    dom.windSpeed.textContent = windSpeedKm.toFixed(1) + ' km' ;
+    dom.localTimeDom.textContent = `Local time is : ${localHour}`
+    imageChange(todayCode, dom.todayImage, isDay)
 
 
 
@@ -151,16 +96,13 @@ export async function getWeatherData(location, unit, unitString) {
     })
 
 
-    // Converting graph units (not yet functional)
     const convForecastTemps = []
     forecastTemps.forEach(temp => {
         convForecastTemps.push(unit(temp))
     })
-    console.log(convForecastTemps)
 
-
-    // Second page forecast graph (works with Celsius only atm)
-    new Chart(ctx, {
+    
+    new Chart(dom.ctx, {
   type: 'line',
   data: {
     labels: forecastDays,
@@ -182,27 +124,4 @@ export async function getWeatherData(location, unit, unitString) {
 })
 
 }
-
-
-// Search functionality
-function performSearch(){
-    console.log('unitType:', unitType)
-    if(unitType === kToCelsius) {
-        getWeatherData(input.value, kToCelsius, unitString)
-        location.textContent = input.value;
-        input.value = ''
-    }else{
-        getWeatherData(input.value, kToFahr, unitString)
-        location.textContent = input.value;
-        input.value = ''
-    }
-}
-
-
-searchBtn.addEventListener('click' , performSearch)
-input.addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        performSearch()
-    }
-})
 
