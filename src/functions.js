@@ -1,7 +1,4 @@
 import format from "date-fns/format";
-const myKey = config.Unseen_key;
-
-
 
 export const getToday = () => {
     const today = new Date();
@@ -20,7 +17,7 @@ export const kToFahr = (temp) => {
     return result = result.toFixed(1)
 }
 
-
+// Weather icon changes for forecast + current day
 export function imageChange(code, image, isDay) {
     if(isDay === 1) {
 
@@ -40,7 +37,7 @@ export function imageChange(code, image, isDay) {
             image.src = "https://openweathermap.org/img/wn/02d@2x.png"
         }
     }else{
-        
+
         if(code > 199 && code < 233) {
             image.src = "https://openweathermap.org/img/wn/11n@2x.png"
         } else if(code > 299 && code < 321) {
@@ -59,5 +56,3 @@ export function imageChange(code, image, isDay) {
 
     }
 }
-
-
