@@ -1,1 +1,0 @@
-Photo by Altınay Dinç on Unsplash
