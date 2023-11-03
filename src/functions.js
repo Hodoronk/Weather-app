@@ -28,13 +28,6 @@ export const assignDays = () => {
     dom.todayDate.textContent = getToday()
 }
 
-
-
-
-
-
-
-
     // Kelvin conversion functions
 export const kToCelsius = (temp) => {
     let result =  temp - 273.15

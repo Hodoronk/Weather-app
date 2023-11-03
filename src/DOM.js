@@ -30,17 +30,6 @@ export const weekdays = document.querySelectorAll('.weekday')
 
 
 
-
-
-
-
-
-
-
-// API keys
-export const myKey = config.Unseen_key;
-export const weatherKey = config.weatherAPI_key
-
 // Graph
 export let ctx = document.getElementById('myChart');
 
