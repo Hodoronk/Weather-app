@@ -4,7 +4,7 @@ export async function getWeatherData(location) {
 
 
     // API call to get the latitude and logitude of searched location
-    const getGeo = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=${AUTH_TOKEN}`)
+    const getGeo = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=${AUTH_TOKEN}`)
     const geoResponse = await getGeo.json()
     const geoLat = geoResponse[0].lat
     const geoLon = geoResponse[0].lon
