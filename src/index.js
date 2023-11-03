@@ -1,20 +1,20 @@
-import { getWeatherData, getToday, } from "./weatherAPI";
-import { location, todayDate } from "./DOM";
-import { kToCelsius, kToFahr, unitString } from "./functions";
+import * as dom from './DOM'
+import { performSearch, unitChange } from './functions'
 
 
-const { format } = require('date-fns');
+
+    performSearch(1)
 
 
-const onLoad = () => {
-
-    const today = new Date();
-    const formattedDate = format(today , 'EEEE, d MMMM yyyy') ;
-    todayDate.textContent = formattedDate;
-    location.textContent = 'Lupeni' ;
-    getWeatherData('Lupeni', kToCelsius, unitString) ;
 
 
-}
-onLoad();
+dom.searchBtn.addEventListener('click', () => {
+    performSearch(0)
+})
+dom.input.addEventListener('keypress', function(event){
+    if(event.key === 'Enter'){
+        performSearch(0)
+    }
+})
 
+dom.toggleUnits.addEventListener('click', unitChange)
