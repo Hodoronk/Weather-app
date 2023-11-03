@@ -1,6 +1,6 @@
 export async function getWeatherData(location) {
 const AUTH_TOKEN = process.env.AUTH_TOKEN
-const WEATHERAPI_KEY = process.env.WEATHERAPI_KEY
+const WEATHERAPI_KEY = process.env.WEATHERAPI_KEY // test
 
 
 
