@@ -1,20 +1,21 @@
-
-import * as dom from './DOM'
+import { WEATHERAPI_KEY, AUTH_TOKEN } from "."
 export async function getWeatherData(location) {
 
+
+
     // API call to get the latitude and logitude of searched location
-    const getGeo = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=` + dom.myKey)
+    const getGeo = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=${AUTH_TOKEN}`)
     const geoResponse = await getGeo.json()
     const geoLat = geoResponse[0].lat
     const geoLon = geoResponse[0].lon
 
     // API call with the latitude and longitude
-    const getWeather = await fetch(`http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${dom.myKey}&lat=${geoLat}&lon=${geoLon}`) ;
+    const getWeather = await fetch(`http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${AUTH_TOKEN}&lat=${geoLat}&lon=${geoLon}`) ;
     const weatherResponse = await getWeather.json();
     console.log(weatherResponse)
 
     // API call to weatherAPI for chance of rain + isDay
-    const wApi = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${dom.weatherKey}&q=${location}&days=1&aqi=no&alerts=no`)
+    const wApi = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${WEATHERAPI_KEY}&q=${location}&days=1&aqi=no&alerts=no`)
     const wApiResponse = await wApi.json();
     console.log(wApiResponse)
 
