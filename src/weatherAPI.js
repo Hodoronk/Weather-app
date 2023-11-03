@@ -1,7 +1,6 @@
-import { WEATHERAPI_KEY, AUTH_TOKEN } from "."
 export async function getWeatherData(location) {
-  console.log(`AUTH_TOKEN: ${AUTH_TOKEN}`)
-  console.log(`WEATHERAPI_KEY: ${WEATHERAPI_KEY}`)
+const AUTH_TOKEN = process.env.AUTH_TOKEN
+const WEATHERAPI_KEY = process.env.WEATHERAPI_KEY
 
 
     // API call to get the latitude and logitude of searched location
