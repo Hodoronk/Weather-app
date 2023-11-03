@@ -3,6 +3,7 @@ const AUTH_TOKEN = process.env.AUTH_TOKEN
 const WEATHERAPI_KEY = process.env.WEATHERAPI_KEY
 
 
+
     // API call to get the latitude and logitude of searched location
     const getGeo = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=${AUTH_TOKEN}`)
     const geoResponse = await getGeo.json()
