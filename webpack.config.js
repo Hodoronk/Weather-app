@@ -1,4 +1,5 @@
 const path = require("path");
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: 'production',
@@ -28,4 +29,7 @@ module.exports = {
       'date-fns': path.resolve(__dirname, 'node_modules/date-fns/esm'),
     },
   },
+  plugins: [
+    new Dotenv()
+  ]
 };
