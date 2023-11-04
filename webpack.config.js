@@ -1,6 +1,6 @@
 const path = require("path");
 const Dotenv = require('dotenv-webpack');
-const webpack = require('webpack');
+
 
 module.exports = {
   mode: 'production',
@@ -30,10 +30,9 @@ module.exports = {
     },
   },
   plugins: [
-    new Dotenv(), // Load environment variables from .env file
-    new webpack.DefinePlugin({
-      AUTH_KEY: JSON.stringify(process.env.AUTH_TOKEN),
-      WEATHERAPI_KEY: JSON.stringify(process.env.WEATHERAPI_KEY)
-    }),
+    new Dotenv({
+      systemvars: true,
+    }), 
+
   ],
 };
