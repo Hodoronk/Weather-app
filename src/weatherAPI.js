@@ -10,15 +10,25 @@ export async function getWeatherData(location) {
     const geoLat = geoResponse[0].lat
     const geoLon = geoResponse[0].lon
 
+  
+
+
     // API call with the latitude and longitude
     const getWeather = await fetch(`https://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${AUTH_TOKEN}&lat=${geoLat}&lon=${geoLon}`) ;
     const weatherResponse = await getWeather.json();
-    console.log(weatherResponse)
+
 
     // API call to weatherAPI for chance of rain + isDay
     const wApi = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${WEATHERAPI_KEY}&q=${location}&days=1&aqi=no&alerts=no`)
     const wApiResponse = await wApi.json();
-    console.log(wApiResponse)
+
+
+    if(!geoResponse.ok){
+      alert('Please enter a valid location')
+      return
+    }
+
+
 
     const minForecast = []
     const maxForecast = []

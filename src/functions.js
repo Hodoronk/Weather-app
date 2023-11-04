@@ -64,7 +64,7 @@ export const unitChange = () => {
 let globalWData;
 export const performSearch = (init) => {
     if(init === 1){
-        getWeatherData('Bucuresti')
+        getWeatherData('New York')
         .then((weatherData) => {
             globalWData = weatherData;
             updateUI(globalWData, unit)
