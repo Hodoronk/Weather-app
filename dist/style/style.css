@@ -4,6 +4,8 @@
     font-family: Arial, Helvetica, sans-serif;
     box-sizing: border-box;
     color: white;
+
+
 }
 
 nav{
@@ -55,6 +57,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
 }
 #weather-icon{
     width: 200px;
@@ -66,6 +69,8 @@ body{
     margin: 300px 100px;
     display: flex;
     flex-direction: column;
+
+
 
     
     
@@ -226,11 +231,107 @@ nav a{
 
 
 
-@media (max-width: 769px){
-    nav h2{
-        font-size: 1rem;
-    }
-    nav{
-        width: 100vw;
-    }
+@media (max-width: 770px){
+nav{
+    display:flex;
+    height: 10vh;
 }
+
+
+.chance-of-rain, .wind-speed, .humid{
+    margin-right: 20px;
+    margin-top: -20px;
+    margin-left: -20px;
+}
+
+
+
+.details-card > div {
+    width: 100%; /* Make the child divs take up the full width */
+    box-sizing: border-box; /* Includes padding and border in the width */
+}
+.now-card{
+    margin-left: 0px;
+
+}
+
+.future-cast{
+    display:flex;
+    flex-direction:row;
+    justify-content: space-around;
+    width: 950px;
+
+    margin-right: 20px;
+}
+
+}
+
+
+@media (max-width: 600px){
+
+nav{
+    display:none;
+}
+
+#fl-temp{
+    margin-bottom: 10vh;
+    font-size: 100px;;
+}
+
+.now-card #search-bar{
+    width: 500px;
+}
+
+.now-card #local-time{
+    font-size:40px;
+}
+.now-card #location{
+    font-size:200px;
+    margin-bottom: 10px;
+}
+.now-card{
+    margin-bottom: 50px;
+}
+#weather-icon{ 
+    margin-bottom: 100px;
+}
+.future-cast{
+    display:flex;
+    flex-direction:column;
+    margin-top: 25vh;
+    align-items: center;
+
+}
+.future-cast .day{
+    height: 60vh;
+    width: 70vh;
+    display:flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    border: 1px solid white;
+}
+.future-cast img{
+    height:25vh;
+    width: 25vh;
+
+}
+.weekday{
+    font-size: 10vh;
+}
+.inner-day{
+    display: flex;
+    flex-direction: column;
+    
+
+}
+
+.max-temp, .min-temp{
+    font-size: 60px;
+    
+}
+.max-temp{
+    margin-top: -55px;
+    
+}
+
+    }
