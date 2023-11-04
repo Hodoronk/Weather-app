@@ -23,12 +23,6 @@ export async function getWeatherData(location) {
     const wApiResponse = await wApi.json();
 
 
-    if(!geoResponse.ok){
-      alert('Please enter a valid location')
-      return
-    }
-
-
 
     const minForecast = []
     const maxForecast = []

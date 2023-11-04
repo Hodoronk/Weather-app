@@ -1,12 +1,12 @@
-
+/* 
 @font-face{
     font-family: 'Ubuntu-mono';
     src: url('/dist/fonts/UbuntuMono-Regular.ttf')
-}
+} */
 *{
     margin: 0;
     padding: 0;
-    font-family:'Ubuntu-mono';
+    font-family:Arial, Helvetica, sans-serif;
     box-sizing: border-box;
     color: rgb(255, 255, 255);
 
