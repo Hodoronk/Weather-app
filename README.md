@@ -18,3 +18,6 @@ This is a simple weather application that allows you to check the current weathe
 - [Dotenv](https://www.npmjs.com/package/dotenv) Used for securely adding API keys.
 - Fetch API: Used for making asynchronous requests to the WeatherAPI.
 - HTML and CSS: Used for the user interface.
+## Images
+
+![screenshot](https://github.com/Hodoronk/Weather-app/assets/93437156/733be9fa-bb31-4b81-bd0f-2a18b7a286dc)
